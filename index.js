@@ -1,9 +1,8 @@
 import express from 'express';
-import Twig from 'twig';
+import {twig} from 'twig';
 
-import homeRoute from "./routes/home";
+import {home, product} from './controllers/index.js';
 
-const twig = Twig.twig;
 
 const app = express();
 
@@ -17,8 +16,14 @@ app.set('views', './views');
 
 app.use(express.urlencoded({extended: true}));
 
-app.get('/', homeRoute);
+app.get('/', home);
+app.get('/product/:productId', product.getProduct);
+app.post('/product', product.createProduct);
+app.get('/product', product.createProduct);
+app.get('/products', product.getAllProducts);
+
+const greet = `app is listening to port 9000`;
 
 app.listen(9000,() => {
-    console.log(`app is listening to port 9000`);
+    console.log(greet);
 });
