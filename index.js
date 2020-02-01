@@ -1,5 +1,6 @@
 import express from 'express';
 import {twig} from 'twig';
+import session from'express-session';
 
 import {home, product} from './controllers/index.js';
 
@@ -13,6 +14,7 @@ app.set("twig options", {
 
 app.set('view engine', 'twig');
 app.set('views', './views');
+app.use(session({secret: 'ssshhhhh'}));
 
 app.use(express.urlencoded({extended: true}));
 
