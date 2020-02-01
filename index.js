@@ -1,16 +1,15 @@
 import express from 'express';
 import {twig} from 'twig';
 import session from 'express-session';
-const cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
 import sequelize from 'sequelize';
 
 import {
     home,
     product,
     customer,
-    cart,
+    admin,
 } from './controllers/index';
-
 import Auth from './auth/index';
 
 
@@ -29,7 +28,7 @@ app.use(session({
     secret: process.env.APP_SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }
+    cookie: { maxAge: 600000 }
 }));
 app.use(express.urlencoded({extended: true}));
 
@@ -44,7 +43,11 @@ app.use('/register', customer.register);
 app.use('/login', customer.login);
 app.use('/logout', customer.logout);
 
-app.use('/cart', Auth.customer, cart.showCart);
+app.get('/cart', Auth.customer, customer.showCart);
+
+app.get('/nieadmin/users', Auth.admin, admin.showUsers);
+app.use('/nieadmin/login', admin.login);
+
 
 app.listen(9000,() => {
     console.log(`app is listening to port 9000`);

@@ -1,4 +1,4 @@
-import Roles from "../roles";
+import Roles from "./ROLES";
 
 const customer = (req, res, next) => {
     if (req.session.role === Roles.Customer) {

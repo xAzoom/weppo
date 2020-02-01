@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 
 import {Customer} from "../models";
-import Roles from '../roles';
+import Roles from '../auth/ROLES';
 
 
 let customer = {};
@@ -43,10 +43,10 @@ customer.login =  (req, res) => {
                     req.session.role = Roles.Customer;
                     res.status(200).send(req.session);
                 } else {
-                    res.status(400).send({'status': '400'})
+                    res.render('login')
                 }
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => res.render('login'));
     } else {
         res.render('login');
     }
@@ -57,6 +57,10 @@ customer.logout = (req, res) => {
         req.session.destroy();
     }
     res.redirect('/login');
+};
+
+customer.showCart = (req, res) => {
+    res.send("OK");
 };
 
 module.exports = customer;
