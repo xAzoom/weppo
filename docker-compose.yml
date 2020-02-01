@@ -11,7 +11,8 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db/postgres
+      DATABASE_URL: "postgres://postgres:postgres@db/postgres"
+      APP_SECRET: "shhhhhhhhhhhhhhhhhhhhhhhhhh"
 
   db:
     image: postgres
