@@ -1,5 +1,5 @@
 const home = (req, res) => {
-    res.render('index', {username: 'fsdfdsdf'});
+    res.render('home', {role: req.session.role});
 };
 
 export default home;

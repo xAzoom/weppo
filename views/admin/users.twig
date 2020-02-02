@@ -1,0 +1,21 @@
+{% extends "../base.twig" %}
+{% block content %}
+    <table>
+        <thead>
+        <tr>
+            <th>firstname</th>
+            <th>lastname</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

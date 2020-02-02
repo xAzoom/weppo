@@ -6,7 +6,13 @@ import Roles from "../auth/ROLES";
 let admin = {};
 
 admin.showUsers = (req, res) => {
-    res.send("OK");
+    Customer
+        .findAll()
+        .then(customers => {
+            res.render('admin/users', {role: req.session.role, users: customers})
+        })
+        .catch(error => res.render('500', {role: req.session.role}));
+
 };
 
 admin.login = (req, res) => {
@@ -23,12 +29,12 @@ admin.login = (req, res) => {
                 if (bcrypt.compareSync(password, admin.password)) {
                     req.session.nickname = admin.nickname;
                     req.session.role = Roles.Admin;
-                    res.status(200).send(req.session);
+                    res.redirect("/");
                 } else {
-                    res.render('admin_login');
+                    res.render('admin_login', {role: req.session.role});
                 }
             })
-            .catch(error => res.render('admin_login'));
+            .catch(error => res.render('admin_login', {role: req.session.role}));
     } else {
         res.render('admin_login');
     }

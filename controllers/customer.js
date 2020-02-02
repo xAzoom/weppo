@@ -20,14 +20,22 @@ customer.register = (req, res) => {
                 password: hash,
                 email,
             })
-            .then(customer => res.status(201).send(customer))
+            .then(customer => {
+                req.session.email = customer.email;
+                req.session.role = Roles.Customer;
+                req.session.cart = {};
+                res.redirect('/');
+            })
             .catch(error => res.status(400).send(error));
     } else {
-        res.render('register');
+        res.render('register', {role: req.session.role});
     }
 };
 
 customer.login =  (req, res) => {
+    if (req.session.role === Roles.Customer) {
+        res.redirect('/');
+    }
     if (req.body.email != null) {
         const {password, email} = req.body;
 
@@ -41,26 +49,23 @@ customer.login =  (req, res) => {
                 if (bcrypt.compareSync(password, customer.password)) {
                     req.session.email = customer.email;
                     req.session.role = Roles.Customer;
-                    res.status(200).send(req.session);
+                    req.session.cart = {};
+                    res.redirect('/');
                 } else {
-                    res.render('login')
+                    res.render('login', {role: req.session.role})
                 }
             })
-            .catch(error => res.render('login'));
+            .catch(error => res.render('login', {role: req.session.role}));
     } else {
-        res.render('login');
+        res.render('login', {role: req.session.role});
     }
 };
 
 customer.logout = (req, res) => {
-    if (req.session.role === Roles.Customer) {
+    if (req.session.role === Roles.Customer || req.session.role === Roles.Admin) {
         req.session.destroy();
     }
     res.redirect('/login');
-};
-
-customer.showCart = (req, res) => {
-    res.send("OK");
 };
 
 module.exports = customer;
