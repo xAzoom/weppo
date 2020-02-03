@@ -1,0 +1,29 @@
+{% extends "../base.twig" %}
+{% block content %}
+    {% for order in orders %}
+        <div class="card">
+            <h3>userId: {{ order.customerId }}</h3>
+            <h4>total price: {{ order.price }}</h4>
+            <table>
+                <thead>
+                <tr>
+                    <th>name</th>
+                    <th>amount</th>
+                    <th>unit price</th>
+                    <th>price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in order.items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.unitPrice }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}

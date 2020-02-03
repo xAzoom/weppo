@@ -1,24 +1,30 @@
 {% extends "../base.twig" %}
 {% block content %}
-<table>
-    <thead>
-    <tr>
-        <th>name</th>
-        <th>amount</th>
-        <th>unit price</th>
-        <th>price</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for product in cart %}
+    <table>
+        <thead>
         <tr>
-            <td>{{ product.name }}</td>
-            <td>{{ product.amount }}</td>
-            <td>{{ product.unitPrice }}</td>
-            <td>{{ product.price }}</td>
+            <th>name</th>
+            <th>amount</th>
+            <th>unit price</th>
+            <th>price</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<h3>total price: {{ price }}</h3>
+        </thead>
+        <tbody>
+        {% for product in cart %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.amount }}</td>
+                <td>{{ product.unitPrice }}</td>
+                <td>{{ product.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>total price: {{ price }}</h3>
+    <form action="/order" method="post">
+        <input type="hidden" name="items" value='{{ cart|json_encode }}'>
+        <input type="hidden" name="price" value="{{ price }}">
+        <input type="hidden" name="userId" value="{{ userId }}">
+        <input type="submit">
+    </form>
 {% endblock %}

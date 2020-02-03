@@ -43,7 +43,7 @@ cart.showCart = (req, res) => {
                 'price': req.session.cart[product['name']] * product['price'],
             })
         }
-        res.render('customer/cart', {cart, price, role: req.session.role});
+        res.render('customer/cart', {cart, price, role: req.session.role, userId: req.session.userId});
     }).catch((error) => {
         res.status(400).send(error);
     })

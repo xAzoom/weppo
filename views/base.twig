@@ -22,9 +22,11 @@
     {% elseif role == "Admin" %}
         <a href="/users">show users</a>
         <a href="/product">create product</a>
+        <a href="/orders">show orders</a>
     {% endif %}
     {% if not role %}
     <a href="/login">login</a>
+    <a href="/register">register</a>
     {% endif %}
     {% if role %}
         <a href="/logout">logout</a>

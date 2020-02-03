@@ -1,6 +1,7 @@
 {% extends "base.twig" %}
 
 {% block content %}
+    <div class="products">
     {% for product in products %}
         <div class="card">
             <h3 class="name">{{ product.name }}</h3>
@@ -12,4 +13,5 @@
             {% endif %}
         </div>
     {% endfor %}
+    </div>
 {% endblock %}

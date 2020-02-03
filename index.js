@@ -2,13 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 
-import {
-    home,
-    product,
-    customer,
-    admin,
-    cart,
-} from './controllers/index';
+import {home, product, customer, admin, cart, order} from './controllers/index';
 import Auth from './auth/index';
 
 
@@ -30,7 +24,9 @@ app.use(session({
     cookie: { maxAge: 600000 }
 }));
 app.use(express.urlencoded({extended: true}));
-app.use(express.static('assets'));
+app.use(express.static('assets', {
+    maxAge: '60000' // uses milliseconds per docs
+}));
 
 
 app.get('/', home);
@@ -51,6 +47,9 @@ app.get('/cart/add/:name', Auth.customer, cart.addToCart);
 
 app.get('/users', Auth.admin, admin.showUsers);
 app.use('/nieadmin/login', admin.login);
+
+app.post('/order', Auth.customer, order.creatOrder);
+app.get('/orders', Auth.admin, order.getAll);
 
 
 app.listen(9000,() => {

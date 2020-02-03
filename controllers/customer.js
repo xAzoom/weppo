@@ -7,6 +7,11 @@ import Roles from '../auth/ROLES';
 let customer = {};
 
 customer.register = (req, res) => {
+    if (req.session.role === Roles.Customer || req.session.role === Roles.Admin) {
+        res.redirect('/');
+        res.end();
+        return;
+    }
     if (req.body.firstname != null) {
         const {firstname, lastname, password, email} = req.body;
 
@@ -18,10 +23,10 @@ customer.register = (req, res) => {
                 firstname: firstname,
                 lastname: lastname,
                 password: hash,
-                email,
+                email: email,
             })
             .then(customer => {
-                req.session.email = customer.email;
+                req.session.userId = customer.id;
                 req.session.role = Roles.Customer;
                 req.session.cart = {};
                 res.redirect('/');
@@ -33,8 +38,10 @@ customer.register = (req, res) => {
 };
 
 customer.login =  (req, res) => {
-    if (req.session.role === Roles.Customer) {
+    if (req.session.role === Roles.Customer || req.session.role === Roles.Admin) {
         res.redirect('/');
+        res.end();
+        return;
     }
     if (req.body.email != null) {
         const {password, email} = req.body;
@@ -47,7 +54,7 @@ customer.login =  (req, res) => {
             })
             .then(customer => {
                 if (bcrypt.compareSync(password, customer.password)) {
-                    req.session.email = customer.email;
+                    req.session.userId = customer.id;
                     req.session.role = Roles.Customer;
                     req.session.cart = {};
                     res.redirect('/');

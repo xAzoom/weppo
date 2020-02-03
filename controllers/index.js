@@ -3,6 +3,7 @@ import product from './product.js';
 import customer from './customer.js';
 import admin from "./admin";
 import cart from "./cart";
+import order from "./order";
 
 module.exports = {
     home,
@@ -10,5 +11,6 @@ module.exports = {
     customer,
     admin,
     cart,
+    order,
 };
 
